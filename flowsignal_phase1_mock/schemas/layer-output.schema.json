@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cluster.example/schemas/layer-output.schema.json",
+  "title": "Per-Layer Bounded Output",
+  "type": "object",
+  "required": [
+    "layer",
+    "decision_correlation_id",
+    "artifact_id",
+    "produced_at",
+    "outcome",
+    "summary",
+    "evidence_refs"
+  ],
+  "properties": {
+    "layer": {
+      "type": "string",
+      "enum": ["ASRO", "FlowSignal", "MIR", "EVIDE", "Reviewability"]
+    },
+    "decision_correlation_id": { "type": "string" },
+    "artifact_id": { "type": "string" },
+    "produced_at": { "type": "string", "format": "date-time" },
+    "outcome": { "type": "string" },
+    "summary": { "type": "string" },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "payload": { "type": "object" }
+  }
+}

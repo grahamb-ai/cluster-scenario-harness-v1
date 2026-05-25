@@ -1,0 +1,30 @@
+{
+  "scenario_id": "disputed_claim_resolution",
+  "name": "Disputed claim resolution",
+  "decision_correlation_id": "dcid-004-claim-dispute",
+  "created_at": "2026-05-25T09:30:00Z",
+  "actor": {
+    "id": "claims-agent-052",
+    "type": "ai_assisted_operator",
+    "label": "Claims Resolution Agent",
+    "delegated_by": "claims-lead-002"
+  },
+  "requested_action": {
+    "system": "ClaimsPlatform",
+    "action": "RESOLVE_DISPUTED_CLAIM",
+    "resource": "claim-CLM-23991",
+    "consequence_level": "high"
+  },
+  "context": {
+    "jurisdiction": "UK",
+    "policy_set_id": "POL-CLAIMS-2026-05",
+    "dispute_reason": "Customer contests rejection rationale",
+    "customer_vulnerability_flag": true
+  },
+  "evidence_refs": [
+    "hash:claim_file_2199",
+    "hash:vulnerability_check_4419",
+    "hash:dispute_authority_3490"
+  ],
+  "expected_layers": ["ASRO", "FlowSignal", "MIR", "EVIDE", "Reviewability"]
+}

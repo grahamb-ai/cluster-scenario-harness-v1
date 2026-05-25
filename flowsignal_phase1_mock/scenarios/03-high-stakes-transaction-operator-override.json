@@ -1,0 +1,33 @@
+{
+  "scenario_id": "high_stakes_transaction_operator_override",
+  "name": "High-stakes transaction with operator override",
+  "decision_correlation_id": "dcid-003-operator-override",
+  "created_at": "2026-05-25T09:20:00Z",
+  "actor": {
+    "id": "operator-447",
+    "type": "human_operator",
+    "label": "AP Manager",
+    "delegated_by": "finance-director-012"
+  },
+  "requested_action": {
+    "system": "SAP",
+    "action": "PAYMENT_RELEASE",
+    "resource": "invoice-INV-44721",
+    "amount": "182000.00",
+    "currency": "GBP",
+    "consequence_level": "high"
+  },
+  "context": {
+    "jurisdiction": "UK",
+    "policy_set_id": "POL-PAYMENTS-UK-2026-05",
+    "operator_override": true,
+    "override_reason": "Supplier claims critical delivery dependency",
+    "risk_score": 87
+  },
+  "evidence_refs": [
+    "hash:invoice_validation_4412",
+    "hash:supplier_risk_8821",
+    "hash:delegation_chain_5510"
+  ],
+  "expected_layers": ["ASRO", "FlowSignal", "MIR", "EVIDE", "Reviewability"]
+}

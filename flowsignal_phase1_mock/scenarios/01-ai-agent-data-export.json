@@ -1,0 +1,30 @@
+{
+  "scenario_id": "ai_agent_data_export",
+  "name": "AI agent requests data export",
+  "decision_correlation_id": "dcid-001-data-export",
+  "created_at": "2026-05-25T09:00:00Z",
+  "actor": {
+    "id": "agent-finops-17",
+    "type": "ai_agent",
+    "label": "Finance Ops Agent",
+    "delegated_by": "ops-manager-221"
+  },
+  "requested_action": {
+    "system": "CRM",
+    "action": "EXPORT_CUSTOMER_DATA",
+    "resource": "customer_segment_enterprise_uk",
+    "consequence_level": "high"
+  },
+  "context": {
+    "jurisdiction": "UK",
+    "policy_set_id": "POL-EXPORT-UK-2026-05",
+    "business_reason": "Quarterly account review",
+    "data_classification": "confidential_personal_data"
+  },
+  "evidence_refs": [
+    "hash:business_reason_7421",
+    "hash:data_classification_9981",
+    "hash:delegation_token_1288"
+  ],
+  "expected_layers": ["ASRO", "FlowSignal", "MIR", "EVIDE", "Reviewability"]
+}

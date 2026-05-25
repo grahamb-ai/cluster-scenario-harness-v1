@@ -1,0 +1,29 @@
+{
+  "scenario_id": "audit_trail_reconstruction_correlation_contract",
+  "name": "Audit-trail reconstruction with correlation contract",
+  "decision_correlation_id": "dcid-005-reconstruction",
+  "created_at": "2026-05-25T09:40:00Z",
+  "actor": {
+    "id": "auditor-884",
+    "type": "external_reviewer",
+    "label": "External Audit Reviewer"
+  },
+  "requested_action": {
+    "system": "AuditWorkbench",
+    "action": "RECONSTRUCT_DECISION_TRAIL",
+    "resource": "dcid-003-operator-override",
+    "consequence_level": "review"
+  },
+  "context": {
+    "jurisdiction": "UK",
+    "policy_set_id": "POL-AUDIT-2026-05",
+    "review_question": "Can a reviewer independently stitch and verify the decision lifecycle?"
+  },
+  "evidence_refs": [
+    "hash:asro_record_003",
+    "hash:flowsignal_closure_003",
+    "hash:mir_report_003",
+    "hash:evide_package_003"
+  ],
+  "expected_layers": ["ASRO", "FlowSignal", "MIR", "EVIDE", "Reviewability"]
+}
