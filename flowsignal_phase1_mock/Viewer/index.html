@@ -1,1 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlowSignal Sovereign Layer Harness — v1.1</title>
+  <style>
+    :root{--bg:#08111f;--panel:#0f1c2f;--panel2:#13233a;--text:#e9f2ff;--muted:#9fb2cc;--line:#24415f;--blue:#35a7ff;--teal:#23d3c3;--amber:#ffb84d;--red:#ff5d6c;--green:#54d980}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top right,rgba(35,211,195,.14),transparent 35%),radial-gradient(circle at top left,rgba(53,167,255,.13),transparent 35%),var(--bg);color:var(--text)}
+    header{padding:34px 40px 24px;border-bottom:1px solid var(--line);background:rgba(8,17,31,.84);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+    .brand{display:flex;align-items:center;gap:14px;margin-bottom:14px}.logo{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),var(--blue));box-shadow:0 0 28px rgba(53,167,255,.4);font-size:24px}
+    h1{margin:0;font-size:clamp(26px,4vw,46px);letter-spacing:-.04em}.subtitle{color:var(--muted);font-size:16px;max-width:980px;line-height:1.55;margin-top:10px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+    button{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:650;transition:all .18s ease}button:hover{transform:translateY(-1px);border-color:var(--blue)}button.active{background:linear-gradient(135deg,var(--blue),var(--teal));color:#03101d;border-color:transparent}
+    main{padding:32px 40px 60px}.notice{border:1px solid rgba(35,211,195,.35);background:rgba(35,211,195,.08);border-radius:20px;padding:18px 20px;margin-bottom:28px;line-height:1.55}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;align-items:stretch}
+    .card{grid-column:span 6;background:linear-gradient(180deg,rgba(19,35,58,.94),rgba(15,28,47,.94));border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.26)}.card.full{grid-column:span 12}.card.third{grid-column:span 4}
+    .card h2{margin:0 0 8px;font-size:22px;letter-spacing:-.025em;display:flex;align-items:center;gap:10px}.tag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:750;letter-spacing:.02em;border:1px solid var(--line);color:var(--muted);margin-bottom:14px}.tag.determine{color:var(--green);border-color:rgba(84,217,128,.45);background:rgba(84,217,128,.08)}.tag.observe{color:var(--blue);border-color:rgba(53,167,255,.45);background:rgba(53,167,255,.08)}.tag.review{color:var(--amber);border-color:rgba(255,184,77,.45);background:rgba(255,184,77,.08)}
+    .meta{color:var(--muted);line-height:1.5;margin:0 0 18px}.section-title{font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.12em;font-weight:850;margin-top:18px;margin-bottom:8px}ul{margin:0;padding-left:18px;color:var(--text);line-height:1.55}li{margin-bottom:6px}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}pre{white-space:pre-wrap;word-break:break-word;background:#06101d;border:1px solid var(--line);border-radius:16px;padding:16px;color:#d7e9ff;font-size:13px;line-height:1.45;overflow:auto;max-height:420px}
+    .outcome{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 4px}.pill{padding:8px 12px;border-radius:999px;font-weight:850;border:1px solid var(--line)}.allow{color:var(--green);background:rgba(84,217,128,.08);border-color:rgba(84,217,128,.45)}.escalate{color:var(--amber);background:rgba(255,184,77,.08);border-color:rgba(255,184,77,.45)}.refuse{color:var(--red);background:rgba(255,93,108,.08);border-color:rgba(255,93,108,.45)}
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:18px}.flow-step{border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(255,255,255,.035);min-height:150px}.flow-step strong{display:block;margin-bottom:8px}.flow-step p{margin:0;color:var(--muted);line-height:1.45;font-size:14px}.hidden{display:none!important}.warning{border-left:4px solid var(--amber);padding:12px 14px;background:rgba(255,184,77,.08);border-radius:12px;margin-top:14px;color:#ffe1ad}.good{border-left:4px solid var(--green);padding:12px 14px;background:rgba(84,217,128,.08);border-radius:12px;margin-top:14px;color:#ceffd9}
+    table{width:100%;border-collapse:collapse;margin-top:14px;overflow:hidden;border-radius:14px}th,td{border:1px solid var(--line);padding:12px;vertical-align:top;text-align:left;line-height:1.45}th{background:rgba(53,167,255,.08);color:var(--text)}td{color:var(--muted)}
+    @media(max-width:950px){header,main{padding-left:20px;padding-right:20px}.card,.card.third{grid-column:span 12}.flow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">🧭</div><div><h1>FlowSignal Sovereign Layer Harness v1.1</h1><div class="subtitle">Updated to separate sovereign layer records from reviewer-side stitching. Each panel shows only what that layer actually observes or determines. Cross-layer correlation happens only in the independent reviewer view via <code>decision_correlation_id</code>.</div></div></div>
+  <div class="toolbar"><button class="active" data-filter="all">All Views</button><button data-filter="flowsignal">FlowSignal</button><button data-filter="mir">MIR</button><button data-filter="asro">ASRO</button><button data-filter="evide">EVIDE</button><button data-filter="reviewer">Reviewer View</button></div>
+</header>
+<main>
+<div class="notice"><strong>Harness correction:</strong> no layer is rendered as natively aware of another layer’s artifacts. Layer panels show sovereign records only. The reviewer view demonstrates composition by pulling each layer independently using the shared correlation spine.</div>
+<section class="grid">
+<article class="card full" data-layer="reviewer"><span class="tag review">Reviewer-side stitching</span><h2>Composition Spine</h2><p class="meta">The consuming system or independent reviewer stitches records across layers using the same correlation ID. Artifact meaning is assembled outside the sovereign layer panels.</p><pre>{
+  "decision_correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+  "scenario": "AI-influenced payment release",
+  "reviewer_instruction": "Pull each layer independently. Do not infer native cross-layer awareness.",
+  "stitching_rule": "correlation without chaining; reference without absorption; reviewer-side reconstruction"
+}</pre></article>
+
+<article class="card" data-layer="flowsignal"><span class="tag determine">Determination authority: execution admissibility</span><h2>FlowSignal — Execution Boundary</h2><p class="meta">FlowSignal evaluates whether bind-time conditions for execution are present. It does not prove upstream truth or future policy validity.</p><div class="section-title">Observes / evaluates</div><ul><li>Presented authority state at bind-time</li><li>Bind-time policy conditions</li><li>Delegation path resolution</li><li>Escalation conditions</li><li>Witness-state contract status where required</li></ul><div class="section-title">Does not determine</div><ul><li>Whether upstream declarations are substantively correct</li><li>Whether the originating policy was the right policy</li><li>Whether another layer’s artifact is valid</li><li>Whether the same bind would be admissible under future policy</li></ul><div class="outcome"><span class="pill escalate">ESCALATE</span><span class="pill">No execution commit</span></div><pre>{
+  "layer": "FlowSignal",
+  "decision_correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+  "bind_point": "pre_execution_commit",
+  "execution_target": { "system": "SAP", "action": "PAYMENT_RELEASE", "resource": "INV-44721" },
+  "authority_resolution": {
+    "outcome": "ESCALATE",
+    "evaluated_statement": "presented authority state met some, but not all, bind-time policy conditions",
+    "checks": {
+      "mandate_scope": "pass",
+      "delegation_chain": "conditional",
+      "evidence_sufficiency": "conditional",
+      "override_admissibility": "not_present",
+      "witness_state_contract": "required_for_external_defensibility"
+    }
+  },
+  "execution_decision": { "admissible_to_bind": false, "next_required_action": "step_up_authority_review" },
+  "resolved_at": "2026-05-25T22:00:02Z"
+}</pre><div class="good">Tight wording: FlowSignal evaluated whether bind-time conditions for ALLOW were present.</div></article>
+
+<article class="card" data-layer="mir"><span class="tag observe">Sovereign substrate record only</span><h2>MIR — Decision Report</h2><p class="meta">MIR records its own policy evaluation surface. It does not list ASRO, FlowSignal, EVIDE, or reviewability artifacts as MIR-native fields.</p><div class="section-title">Contains</div><ul><li>decision_correlation_id</li><li>actor hash</li><li>recommendation</li><li>tier computation</li><li>claim status</li><li>audit record</li><li>events considered</li></ul><div class="section-title">Removed from MIR panel</div><ul><li><code>observed_layer_artifacts</code></li><li>FlowSignal bind tokens</li><li>ASRO witness artifact IDs</li><li>EVIDE closure package references</li></ul><pre>{
+  "decision_correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+  "evaluation": {
+    "actor": { "type": "service", "id_hash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8" },
+    "action": "finance.approve_payment",
+    "recommendation": "STEP_UP",
+    "whyRec": "Service actor at tier 0; action requires tier 2; STEP_UP to human authorizer in lineage tree.",
+    "tier": {
+      "value": 0,
+      "computed_from": { "effective_event_count": 0, "history_age_days": 0, "partner_count": 1 },
+      "thresholds_applied": { "tier_1": { "events": 10, "days": 14 }, "tier_2": { "events": 50, "days": 30 }, "tier_3": { "events": 200, "days": 90 } },
+      "mode": "INTRA_ORG",
+      "dormancy_decay_applied": false
+    },
+    "claim_status": "clean",
+    "evaluated_at": "2026-05-25T22:00:00Z"
+  },
+  "audit": {
+    "audit_id": "aud_01HXYZ8K9R7M2P3Q4S5T6V7W8X",
+    "actorType": "PARTNER",
+    "actorId": "550e8400-e29b-41d4-a716-446655440000",
+    "actorLabel": "Acme Corp",
+    "action": "policy.evaluation.executed",
+    "resource": "policy/evaluate",
+    "correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+    "recorded_at": "2026-05-25T22:00:00Z"
+  },
+  "events_considered": []
+}</pre><div class="warning">MIR recommendation is not a final execution decision. The consuming system decides what to do with it.</div></article>
+
+<article class="card third" data-layer="asro"><span class="tag observe">Witness surface</span><h2>ASRO — Witness</h2><p class="meta">ASRO witnesses declared governance state at time T. It does not determine whether consequence may bind.</p><pre>{
+  "layer": "ASRO",
+  "decision_correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+  "witness_artifact_id": "asro_wit_7fd92a",
+  "witnessed_at": "2026-05-25T22:00:01Z",
+  "observed": {
+    "declared_governance_state": "present",
+    "policy_reference_hash": "sha256:9ba2...",
+    "actor_posture_hash": "sha256:af01..."
+  },
+  "does_not_determine": ["execution_admissibility", "policy_correctness", "deep_authority_truth"]
+}</pre></article>
+
+<article class="card third" data-layer="evide"><span class="tag observe">Closure catalog</span><h2>EVIDE — Closure</h2><p class="meta">EVIDE catalogs artifacts by hash at closure time. It does not certify that the action occurred admissibly.</p><pre>{
+  "layer": "EVIDE",
+  "decision_correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+  "closure_package_id": "evide_closure_2f19",
+  "assembled_at": "2026-05-25T22:00:04Z",
+  "artifact_references": [
+    { "type": "hash_reference", "hash": "sha256:9ba2..." },
+    { "type": "hash_reference", "hash": "sha256:af01..." }
+  ],
+  "visibility_state": "partial",
+  "unresolved_signals": ["upstream_model_state_not_directly_observable"]
+}</pre></article>
+
+<article class="card third" data-layer="reviewer"><span class="tag review">Cold review</span><h2>Reviewability Conditions</h2><p class="meta">Reviewability tests whether a cold reader can interpret the record independently. It does not make the record correct.</p><pre>{
+  "layer": "Reviewability",
+  "decision_correlation_id": "dcid_2026-05-25_scenario_1_payment_release",
+  "cold_reader_interpretability": "pass",
+  "producer_required_in_room": false,
+  "does_not_determine": ["artifact_correctness", "rule_correctness", "execution_admissibility"]
+}</pre></article>
+
+<article class="card full" data-layer="reviewer"><span class="tag review">Independent Reviewer View</span><h2>Assembled Audit Reconstruction</h2><p class="meta">This is the only place where cross-layer references are visually assembled. The reviewer pulls each layer independently and stitches by correlation ID.</p><div class="flow"><div class="flow-step"><strong>1. MIR</strong><p>Submitted event history and tier-derived recommendation: STEP_UP.</p></div><div class="flow-step"><strong>2. ASRO</strong><p>Witnessed declared governance state and hashes at the witnessing moment.</p></div><div class="flow-step"><strong>3. FlowSignal</strong><p>Evaluated presented bind-time authority conditions and resolved ESCALATE.</p></div><div class="flow-step"><strong>4. EVIDE</strong><p>Cataloged closure references by hash with partial visibility declared.</p></div><div class="flow-step"><strong>5. Reviewer</strong><p>Reconstructed the chain without treating any layer as natively aware of the others.</p></div></div><table><thead><tr><th>Layer</th><th>What it may say</th><th>What it must not imply</th></tr></thead><tbody><tr><td>FlowSignal</td><td>Bind-time conditions for ALLOW were not present, so ESCALATE was returned.</td><td>It proved upstream declarations were substantively true.</td></tr><tr><td>MIR</td><td>A tier-based STEP_UP recommendation was produced from submitted event history.</td><td>It authorised or refused execution.</td></tr><tr><td>ASRO</td><td>A declared governance state was witnessed at time T.</td><td>It certified execution admissibility.</td></tr><tr><td>EVIDE</td><td>Artifacts were cataloged and referenced at closure time.</td><td>It proved the action was admissible.</td></tr><tr><td>Reviewability</td><td>A cold reader can interpret the artifact independently.</td><td>Reviewability equals correctness.</td></tr></tbody></table><div class="good">Demo message: sovereign records remain clean, while reviewer-side reconstruction shows how the architecture composes.</div></article>
+
+<article class="card full" data-layer="all"><span class="tag">Vocabulary Discipline</span><h2>Observation vs Determination Rule</h2><p class="meta">Before a scenario fixture ships, run this mechanical pass across every layer panel.</p><table><thead><tr><th>Check</th><th>Question</th><th>Action</th></tr></thead><tbody><tr><td>1</td><td>List the verbs used by the layer.</td><td>Highlight words such as validates, certifies, proves, authorises.</td></tr><tr><td>2</td><td>Is each verb observation or determination?</td><td>Keep observation verbs for evidence-class surfaces.</td></tr><tr><td>3</td><td>Does this layer hold authority over that question?</td><td>If not, rewrite into observation vocabulary.</td></tr><tr><td>4</td><td>Is cross-layer awareness being implied?</td><td>Move it into reviewer view and stitch by correlation ID.</td></tr></tbody></table></article>
+</section>
+</main>
+<script>
+const buttons=document.querySelectorAll('button[data-filter]');const cards=document.querySelectorAll('[data-layer]');buttons.forEach(button=>{button.addEventListener('click',()=>{const filter=button.dataset.filter;buttons.forEach(b=>b.classList.remove('active'));button.classList.add('active');cards.forEach(card=>{const layer=card.dataset.layer;if(filter==='all'||layer===filter||layer==='all'){card.classList.remove('hidden')}else{card.classList.add('hidden')}})})});
+</script>
+</body>
+</html>
 
